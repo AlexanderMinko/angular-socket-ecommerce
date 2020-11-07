@@ -1,0 +1,26 @@
+<div class="row">
+    <div *ngFor="let product of products" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+        <div id="product1" class="card product">
+            <div class="card-body">
+                <div class="img-thumbnail">
+                    <img class="img-fluid" [src]="product.imageUrl" alt="notebook">
+                </div>
+                <div class="name mt-1">{{product.name}}</div>
+                <div class="code">Code: {{product.id}}</div>
+                <div class="price">{{product.price | currency: 'USD'}}</div>
+                <a class="btn btn-dark" style="float: right;">Details</a>
+                <ul class="list-group">
+                    <li class="list-group-item"><small>Category:</small> <span class="category">
+                            {{product.category.name}}</span></li>
+                    <li class="list-group-item"><small>Producer:</small> <span class="producer">
+                            {{product.producer.name}}</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center hidden-print mb-4">
+    <button (click)="loadMore()" id="loadMore" class="btn btn-dark">Load more products</button>
+</div>
+<!--s-->

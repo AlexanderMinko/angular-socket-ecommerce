@@ -1,0 +1,89 @@
+<div class="modal-header">
+  <h4 class="modal-title">Hi there!</h4>
+  <a ngbAutofocus type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </a>
+</div>
+<div class="modal-body">
+
+  <div class="row" style="padding: 15px;">
+    <div class="col-7">
+
+      <form [formGroup]="authFormGroup" (ngSubmit)="onSubmit()">
+
+        <div *ngIf="!isLoginMode" class="form-group">
+          <label for="firstname">First name</label>
+          <input 
+          type="text"
+          formControlName="firstname"
+          class="form-control" 
+          id="firstname"
+          placeholder="Enter first name...">
+          <small *ngIf="firstname.invalid && firstname.touched && !firstname.dirty" style="color: red;">
+            First name is required!</small>
+          <small *ngIf="firstname.invalid && firstname.dirty && !firstname.untouched" style="color: red;">
+            First name must have at least 2 chars</small>
+        </div>
+
+        <div *ngIf="!isLoginMode" class="form-group">
+          <label for="lastname">Last name</label>
+          <input 
+          type="text"
+          formControlName="lastname"
+          class="form-control" 
+          id="lastname"
+          placeholder="Enter last name...">
+          <small *ngIf="lastname.invalid && lastname.touched && !lastname.dirty" style="color: red;">
+            Last name is required!</small>
+          <small *ngIf="lastname.invalid && lastname.dirty && !lastname.untouched" style="color: red;">
+            Last name must have at least 2 chars</small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input 
+          type="email"
+          formControlName="email"
+          class="form-control" 
+          id="email"
+          placeholder="Enter email...">
+          <small *ngIf="email.invalid && email.touched && !email.dirty" style="color: red;">
+            Email is required!</small>
+          <small *ngIf="email.invalid && email.dirty && !email.untouched" style="color: red;">
+            Enter email like this: example@mail.com</small>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+          type="password" 
+          formControlName="password"
+          class="form-control" 
+          id="password" 
+          placeholder="Enter password...">
+          <small *ngIf="password.invalid && password.touched && !password.dirty" style="color: red !important;">
+            Pssword is required!</small>
+          <small *ngIf="password.invalid && password.dirty && !password.untouched" style="color: red !important;">
+            Password must have at least 3 chars</small>
+        </div>
+
+        <button *ngIf="isLoginMode" type="submit" class="btn btn-dark" style="width: 100% !important;">Sign in</button>
+        <button *ngIf="!isLoginMode" type="submit" class="btn btn-dark" style="width: 100% !important;">Sign up</button>
+        <a *ngIf="isLoginMode" (click)="onChangeToRegistration()" type="button" class="mt-4 register-btn">
+          Not registered yet? Do it now!</a>
+      </form>
+
+    </div>
+    <div class="col-5" style="border-left: 1px solid #dee2e6;">
+
+      <div class="mt-4">
+        <button class="btn btn-outline-danger btn-lg btn-block" (click)="onSignInWithGoogle()">
+          <i class="fab fa-google"></i> Google</button>
+        <button class="btn btn-outline-primary btn-lg btn-block" (click)="onSignInWithFB()">
+          <i class="fab fa-facebook"></i> Facebook</button>
+      </div>
+      
+    </div>
+  </div>
+
+</div>
