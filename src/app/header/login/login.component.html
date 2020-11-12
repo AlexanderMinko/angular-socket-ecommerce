@@ -67,6 +67,10 @@
             Password must have at least 3 chars</small>
         </div>
 
+        <div *ngIf="errorMessage" class="mb-3" style="color: red; text-align: center;">
+          {{errorMessage}}
+        </div>
+
         <button *ngIf="isLoginMode" type="submit" class="btn btn-dark" style="width: 100% !important;">Sign in</button>
         <button *ngIf="!isLoginMode" type="submit" class="btn btn-dark" style="width: 100% !important;">Sign up</button>
         <a *ngIf="isLoginMode" (click)="onChangeToRegistration()" type="button" class="mt-4 register-btn">

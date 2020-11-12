@@ -1,5 +1,5 @@
 <div class="card mb-3">
-    <div class="card-header">Find</div>
+    <div class="card-header"> <i class="fas fa-search"></i> Find </div>
     <div class="input-group" style="padding: 15px;">
         <input type="text" class="form-control" placeholder="Search query...">
         <div class="input-group-append">
@@ -9,12 +9,12 @@
 </div>
 
 <div class="card">
-    <div class="card-header">Categories</div>
+    <div class="card-header"><i class="fas fa-list"></i> Categories </div>
     <div class="list-group" style="border-radius: 0%;">
         <div *ngFor="let category of categories">
             <a routerLink="/products/{{category.id}}" routerLinkActive = "active"
-             class="list-group-item list-group-item-action">{{category.name}}<span style="float: right;"
-                class="badge badge-pill badge-secondary">{{category.count}}</span></a>
+             class="list-group-item list-group-item-action">{{category.name}}
+             <span style="float: right;" class="badge badge-pill badge-secondary">{{category.count}}</span></a>
         </div>
     </div>
 </div>

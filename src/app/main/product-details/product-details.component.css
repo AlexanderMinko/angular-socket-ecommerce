@@ -1,0 +1,10 @@
+.datail-image {
+    height: 300px; 
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+.card-header {
+    padding: 0.5rem 0.75rem;
+}

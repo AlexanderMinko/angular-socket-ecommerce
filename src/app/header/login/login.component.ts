@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../service/auth.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { RegistrationRequestDto } from '../../model/registration-request-dto';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { RegistrationRequest } from '../../model/registration-request';
+import { LoginRequest } from '../../model/login-request';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,7 @@ export class LoginComponent implements OnInit {
 
   authFormGroup: FormGroup;
   isLoginMode: boolean = true;
+  errorMessage: string;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -22,11 +25,19 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.authFormGroup = this.formBuilder.group({
-      firstname: new FormControl('', [Validators.required, Validators.minLength(2)]),
-      lastname: new FormControl('', [Validators.required, Validators.minLength(2)]),
+      firstname: new FormControl('', [Validators.required, Validators.minLength(2), this.notOnlyWhitespace]),
+      lastname: new FormControl('', [Validators.required, Validators.minLength(2), this.notOnlyWhitespace]),
       email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._-]+@[a-z0-9.-]+\\.[a-z]{2,4}')]),
       password: new FormControl('', [Validators.required, Validators.minLength(3)])
     });
+  }
+
+  notOnlyWhitespace(control: FormControl): ValidationErrors {
+    if ((control.value != null) && (control.value.trim().length === 0)) {
+      return { 'notOnlyWhitespace': true };
+    } else {
+      return null;
+    }
   }
 
   get email() { return this.authFormGroup.get('email'); }
@@ -39,26 +50,57 @@ export class LoginComponent implements OnInit {
   }
 
   onSignInWithGoogle(): void {
-    this.authService.signInWithGoogle();
-    this.activeModal.dismiss('Cross click');
+    this.authService.signInWithGoogle(this.activeModal);
   }
 
   onSignInWithFB(): void {
-    this.authService.signInWithFB();
-    this.activeModal.dismiss('Cross click');
+    this.authService.signInWithFB(this.activeModal);
   }
 
   onSubmit(): void {
-    const registrationRequestDto: RegistrationRequestDto = new RegistrationRequestDto();
-    registrationRequestDto.firstName = this.firstname.value;
-    registrationRequestDto.lastName = this.lastname.value;
-    registrationRequestDto.email = this.email.value;
-    registrationRequestDto.password = this.password.value;
-    this.authService.customRegistrationAccount(registrationRequestDto).subscribe(
-      data => {
-        console.log(data);
-        this.activeModal.dismiss('Cross click');
-      });
+    if (this.isLoginMode) {
+      this.login()
+    } else {
+      this.registration();
+    }
   }
 
+  private login() {
+    if (this.email.invalid && this.password.invalid) {
+      this.email.markAsTouched();
+      this.password.markAsTouched();
+    } else {
+      const loginRequest: LoginRequest = new LoginRequest();
+      loginRequest.email = this.email.value;
+      loginRequest.password = this.password.value;
+      this.authService.login(loginRequest).subscribe(
+        data => {
+          console.log(data);
+          this.activeModal.dismiss('Cross click');
+        }, error => {
+          if (error instanceof HttpErrorResponse && error.status === (403 || 401)) {
+            this.errorMessage = "Invalid email or password!"
+          } else {
+            this.errorMessage = error.message;
+          }
+        });
+    }
+  }
+
+  private registration() {
+    if (this.authFormGroup.invalid) {
+      this.authFormGroup.markAllAsTouched();
+    } else {
+      const registrationRequest: RegistrationRequest = new RegistrationRequest();
+      registrationRequest.firstName = this.firstname.value;
+      registrationRequest.lastName = this.lastname.value;
+      registrationRequest.email = this.email.value;
+      registrationRequest.password = this.password.value;
+      this.authService.customRegistrationAccount(registrationRequest).subscribe(
+        data => {
+          console.log(data);
+          this.activeModal.dismiss('Cross click');
+        });
+    }
+  }
 }

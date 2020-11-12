@@ -16,12 +16,16 @@
       </li>
     </ul>
 
-    <ul class="navbar-nav ml-auto" *ngIf="isLogged">
-      <li class="nav-item disabled">
-          <a class="nav-link" routerLinkActive="active" routerLink="/list"> {{userLogged.name}}</a>
-      </li>
-  </ul>
-    <img *ngIf="isLogged" src="{{userLogged.photoUrl}}" class="rounded-circle mr-3" style="width: 35px">
+      <ul class="navbar-nav ml-auto" *ngIf="isLogged">
+        <li class="nav-item disabled">
+          <a class="nav-link" routerLink="/account-details" routerLinkActive="active">
+             {{account.firstName}} {{account.lastName}}</a>
+        </li>
+      </ul>
+      <img *ngIf="isLogged" src="{{account.photoUrl}}" class="rounded-circle mr-3" style="width: 35px">
+
+    <app-cart-status></app-cart-status>
+
     <div *ngIf="!isLogged else logout" class="navbar-nav">
       <a class="nav-link" type="submit" (click)="open()">
         <i class="fas fa-sign-in-alt fa-lg"></i> Sign In</a>
@@ -30,8 +34,7 @@
       <div class="navbar-nav">
         <a class="nav-link" type="submit" (click)="signOut()">
           <i class="fas fa-sign-out-alt fa-lg"></i> Sign Out</a>
-        </div>
+      </div>
     </ng-template>
   </div>
 </nav>
-

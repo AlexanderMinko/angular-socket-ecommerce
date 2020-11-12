@@ -30,9 +30,9 @@ footer {
     flex: 0 0 auto;
 }
 
-a {
+a, a:hover {
 	cursor: pointer;
-    text-decoration: none;
+    text-decoration: none !important;
     color: #142c44;
 }
 

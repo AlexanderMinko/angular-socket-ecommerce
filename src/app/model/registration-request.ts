@@ -1,4 +1,4 @@
-export class RegistrationRequestDto {
+export class RegistrationRequest {
     
     public firstName: string;
     public lastName: string;

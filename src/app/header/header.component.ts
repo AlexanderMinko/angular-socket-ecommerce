@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SocialAuthService, SocialUser } from 'angularx-social-login';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SocialUser } from 'angularx-social-login';
+import { LoginResponse } from '../model/login-response';
 import { AuthService } from '../service/auth.service';
 import { LoginComponent } from './login/login.component';
 
@@ -12,7 +13,7 @@ import { LoginComponent } from './login/login.component';
 export class HeaderComponent implements OnInit {
 
   isLogged: boolean = true;
-  userLogged: SocialUser;
+  account: LoginResponse;
 
   constructor(
     private modalService: NgbModal,
@@ -21,13 +22,13 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.accountChange.subscribe(
-      data => this.userLogged = data
+      data => this.account = data
     );
     this.authService.isLoggedChange.subscribe(
       data => this.isLogged = data
     );
-    this.userLogged = this.authService.getAccount();
-    this.isLogged = !!this.userLogged;
+    this.account = this.authService.getAccount();
+    this.isLogged = !!this.account;
   }
 
   open() {
@@ -36,7 +37,7 @@ export class HeaderComponent implements OnInit {
   }
 
   signOut() {
-    this.authService.logOut();
+    this.authService.logout();
   }
 
 }

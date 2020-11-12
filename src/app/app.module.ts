@@ -15,6 +15,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { socialTokenInterceptor } from './iterceptors/social-token.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProductDetailsComponent } from './main/product-details/product-details.component';
+import { CartStatusComponent } from './header/cart-status/cart-status.component';
+import { CartDetailsComponent } from './main/cart-details/cart-details.component';
+import { AccountDetailsComponent } from './main/account-details/account-details.component';
+import { OrderDetailsComponent } from './main/order-details/order-details.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +28,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     AsideComponent,
     FooterComponent,
     ProductListComponent,
-    LoginComponent
+    LoginComponent,
+    ProductDetailsComponent,
+    CartStatusComponent,
+    CartDetailsComponent,
+    AccountDetailsComponent,
+    OrderDetailsComponent
   ],
   imports: [
     BrowserModule,
