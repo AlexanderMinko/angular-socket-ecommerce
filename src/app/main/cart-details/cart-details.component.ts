@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CartItem } from 'src/app/model/cart-item';
-import { OrderItem } from 'src/app/model/order-item';
+import { CartItem } from 'src/app/model/entity/cart-item';
+import { OrderItem } from '../../model/entity/order-item';
 import { AuthService } from 'src/app/service/auth.service';
 import { CartService } from 'src/app/service/cart.service';
 import { OrderRequestDto } from '../../model/order-request-dto';
@@ -44,7 +44,7 @@ export class CartDetailsComponent implements OnInit {
     this.orderService.makeOrder(orderRequestDto)
     .subscribe( (data: number) => {
       this.cartService.clearStorage('cartItems')
-      this.router.navigate(['/account-details', data]);
+      this.router.navigate(['/order-details', data]);
     });
   }
 

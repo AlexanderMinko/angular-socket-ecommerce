@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SocialUser } from 'angularx-social-login';
 import { LoginResponse } from '../model/login-response';
@@ -17,7 +18,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +40,7 @@ export class HeaderComponent implements OnInit {
 
   signOut() {
     this.authService.logout();
+    this.router.navigate(['/']);
   }
 
 }

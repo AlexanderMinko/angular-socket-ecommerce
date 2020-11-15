@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { CartItem } from '../model/cart-item';
-import { Product } from '../model/product';
+import { CartItem } from '../model/entity/cart-item';
+import { Product } from '../model/entity/product';
 import { ProductService } from './product.service';
 
 @Injectable({
@@ -74,8 +74,8 @@ export class CartService {
   async getCookie(key: string) {
     const allCookies: string[] = document.cookie.split(';');
     const myCookie: string[] = allCookies.filter(el => el.trim().startsWith(key));
-    const cookies: string[] = myCookie[0].trim().split('=');
-    if (cookies[0] === key) {
+    const cookies: string[] = myCookie[0]?.trim().split('=');
+    if (cookies && cookies[0] === key) {
       let cookieValues: string[] = cookies[1].split('|');
       for (let str of cookieValues) {
         let data: string[] = str.split('-');

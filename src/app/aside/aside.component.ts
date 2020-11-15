@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Category } from '../model/category';
+import { Router } from '@angular/router';
+import { Category } from '../model/entity/category';
 import { ProductService } from '../service/product.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class AsideComponent implements OnInit {
   categories: Category[] = [];
 
   constructor(
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -20,6 +22,10 @@ export class AsideComponent implements OnInit {
       data => {
         this.categories = data;
       });
+  }
+
+  doSearch(value: string) {
+    this.router.navigateByUrl(`search/${value.trim()}`);
   }
 
 }

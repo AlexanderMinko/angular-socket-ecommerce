@@ -40,14 +40,18 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.baseUrl}/facebook`, socialRequest, headers);
   }
 
+  verificateAccount(token: string) {
+    return this.http.get(`${this.baseUrl}/verificate/${token}`, {responseType: 'text'})
+  }
+
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, loginRequest, headers).pipe(
       tap((data: LoginResponse) => {
         if (data.enabled) {
-          this.isLoggedChange.next(true);
-          this.accountChange.next(data);
           localStorage.removeItem('loginResponse');
           localStorage.setItem('loginResponse', JSON.stringify(data));
+          this.isLoggedChange.next(true);
+          this.accountChange.next(data);
         } else {
           throw new Error('Please verificate your account!');
         }
@@ -62,7 +66,6 @@ export class AuthService {
       tap((data: LoginResponse) => {
         localStorage.removeItem('loginResponse');
         localStorage.setItem('loginResponse', JSON.stringify(data))
-        console.log("REFRESH TOKEN WORKS");
       }));
   }
 
@@ -73,9 +76,9 @@ export class AuthService {
     this.http.post(`${this.baseUrl}/logout`, refreshTokenRequest, { responseType: 'text' }).subscribe(
       data => {
         console.log(data);
+        localStorage.removeItem('loginResponse');
         this.isLoggedChange.next(false);
         this.accountChange.next(null);
-        localStorage.removeItem('loginResponse');
       });
   }
 
@@ -88,10 +91,10 @@ export class AuthService {
         socialRequest.token = data.idToken;
         socialRequest.photoUrl = data.photoUrl;
         this.google(socialRequest).subscribe((response: LoginResponse) => {
-          this.accountChange.next(response);
-          this.isLoggedChange.next(true);
           localStorage.removeItem('loginResponse');
           localStorage.setItem('loginResponse', JSON.stringify(response));
+          this.accountChange.next(response);
+          this.isLoggedChange.next(true);
         }, error => {
           console.log(error);
           this.logout();
@@ -110,10 +113,10 @@ export class AuthService {
         socialRequest.token = data.authToken;
         socialRequest.photoUrl = data.response.picture.data.url;
         this.facebook(socialRequest).subscribe((response: LoginResponse) => {
-          this.accountChange.next(response);
-          this.isLoggedChange.next(true);
           localStorage.removeItem('loginResponse');
           localStorage.setItem('loginResponse', JSON.stringify(response));
+          this.accountChange.next(response);
+          this.isLoggedChange.next(true);
         }, error => {
           console.log(error);
           this.logout();

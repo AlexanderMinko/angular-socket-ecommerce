@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../service/auth.service';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { RegistrationRequest } from '../../model/registration-request';
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
           console.log(data);
           this.activeModal.dismiss('Cross click');
         }, error => {
-          if (error instanceof HttpErrorResponse && error.status === (403 || 401)) {
+          if (error instanceof HttpErrorResponse && (error.status === 401 || error.status === 401)) {
             this.errorMessage = "Invalid email or password!"
           } else {
             this.errorMessage = error.message;
