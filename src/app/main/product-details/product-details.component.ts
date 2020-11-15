@@ -1,13 +1,15 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CartItem } from 'src/app/model/cart-item';
-import { Product } from 'src/app/model/product';
-import { Review } from 'src/app/model/review';
+import { CartItem } from 'src/app/model/entity/cart-item';
+import { Product } from 'src/app/model/entity/product';
+import { Review } from 'src/app/model/entity/review';
 import { ReviewRequestDto } from 'src/app/model/review-request-dto';
 import { AuthService } from 'src/app/service/auth.service';
 import { CartService } from 'src/app/service/cart.service';
 import { ProductService } from 'src/app/service/product.service';
+import { ReviewService } from 'src/app/service/review.service';
+import { SubReviewRequestDto } from 'src/app/model/sub-review-request-dto';
 
 @Component({
   selector: 'app-product-details',
@@ -21,13 +23,17 @@ export class ProductDetailsComponent implements OnInit {
   product: Product;
   productId: number;
   isLogged: boolean = false;
+  isSubReviewsPresent: boolean = false;
+  currentReplies: number[] = [];
+  currentViewReplies: number[] = [];
 
   constructor(
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private cartService: CartService
+    private cartService: CartService,
+    private reviewService: ReviewService
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +43,7 @@ export class ProductDetailsComponent implements OnInit {
         this.getProduct();
         this.getReviews();
         this.authService.isLoggedChange
-        .subscribe( (data: boolean) => this.isLogged = data);
+          .subscribe((data: boolean) => this.isLogged = data);
         this.isLogged = !!this.authService.getAccount();
       });
     this.reviewFormGroup = this.formBuilder.group({
@@ -50,17 +56,51 @@ export class ProductDetailsComponent implements OnInit {
     return this.reviewFormGroup.get('review');
   }
 
+  onSubmitReply(reply: string, id: number) {
+    const subReviewRequestDto: SubReviewRequestDto = new SubReviewRequestDto();
+    subReviewRequestDto.email = this.authService.getAccount().email;
+    subReviewRequestDto.subReview = reply;
+    subReviewRequestDto.reviewId = id;
+    this.reviewService.postSubReview(subReviewRequestDto)
+      .subscribe(data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      }, () => {
+        this.getReviews();
+      });
+  }
+
+  onViewReplies(id: number) {
+    if (this.currentViewReplies.includes(id)) {
+      this.currentViewReplies = this.currentViewReplies.filter(el => el !== id);
+    } else {
+      this.currentViewReplies.push(id);
+    }
+    console.log(this.currentViewReplies);
+  }
+
+  onReplies(id: number) {
+    if (this.currentReplies.includes(id)) {
+      this.currentReplies = this.currentReplies.filter(el => el !== id);
+    } else {
+      this.currentReplies.push(id);
+    }
+    console.log(this.currentReplies);
+  }
+
   getProduct() {
     this.productService.getProductById(this.productId)
-    .subscribe((data: Product) => this.product = data);
+      .subscribe((data: Product) => {
+        this.product = data;
+      });
   }
 
   getReviews() {
-    this.productService.getReviewsByProductId(this.productId)
-    .subscribe( (data: Review[]) => {
-      this.reviews = data
-    });
-
+    this.reviewService.getReviewsByProductId(this.productId)
+      .subscribe((data: Review[]) => {
+        this.reviews = data;
+      });
   }
 
   onSubmit() {
@@ -68,15 +108,15 @@ export class ProductDetailsComponent implements OnInit {
     reviewRequestDto.review = this.review.value;
     reviewRequestDto.email = this.authService.getAccount().email;
     reviewRequestDto.productId = this.productId;
-    this.productService.postReview(reviewRequestDto)
-    .subscribe(data => {
-      console.log(data);
-      this.reviewFormGroup.reset();
-    }, error => {
-      console.log(error);
-    }, () => {
-      this.getReviews();
-    });
+    this.reviewService.postReview(reviewRequestDto)
+      .subscribe(data => {
+        console.log(data);
+        this.reviewFormGroup.reset();
+      }, error => {
+        console.log(error);
+      }, () => {
+        this.getReviews();
+      });
   }
 
   onAddToCart() {

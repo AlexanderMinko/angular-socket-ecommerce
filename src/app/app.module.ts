@@ -20,6 +20,8 @@ import { CartStatusComponent } from './header/cart-status/cart-status.component'
 import { CartDetailsComponent } from './main/cart-details/cart-details.component';
 import { AccountDetailsComponent } from './main/account-details/account-details.component';
 import { OrderDetailsComponent } from './main/order-details/order-details.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { VerificationComponent } from './main/verification/verification.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { OrderDetailsComponent } from './main/order-details/order-details.compon
     CartStatusComponent,
     CartDetailsComponent,
     AccountDetailsComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    VerificationComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { OrderDetailsComponent } from './main/order-details/order-details.compon
     NgbModule,
     SocialLoginModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     {
@@ -67,3 +71,5 @@ import { OrderDetailsComponent } from './main/order-details/order-details.compon
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+

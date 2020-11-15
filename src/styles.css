@@ -8,9 +8,6 @@
 html, body {
     height: 100%;
 }
-body{
-    line-height: 1;
-}
 
 .wrapper {
     display: flex;
@@ -65,3 +62,9 @@ a, a:hover {
         max-width: 25%;
 	}
 }
+html, body { height: 100%; }
+body { 
+    margin: 0; 
+    line-height: 1; 
+}
+

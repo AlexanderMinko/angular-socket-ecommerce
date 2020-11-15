@@ -1,4 +1,4 @@
-import { OrderItem } from './order-item';
+import { OrderItem } from './entity/order-item';
 
 export class OrderRequestDto {
     email: string;

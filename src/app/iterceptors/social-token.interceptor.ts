@@ -22,15 +22,9 @@ export class SocialTokenInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-        // if (req.url.indexOf('refresh') !== -1) {
-        //     return next.handle(req);
-        // }
-
         let token: string;
         token = this.authService.getAccount()?.authToken;
         if (token) {
-            console.log('Interceptor works ' + token);
             req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
             return next.handle(req).pipe(
                 catchError(error => {

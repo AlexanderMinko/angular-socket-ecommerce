@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Product } from '../model/product';
-import { Category } from '../model/category';
-import { ReviewRequestDto } from '../model/review-request-dto';
-import { Review } from '../model/review';
-import { map, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Product } from '../model/entity/product';
+import { Category } from '../model/entity/category';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +12,10 @@ export class ProductService {
   private baseUrl: string = 'http://localhost:8080/api/products';
 
   constructor(private http: HttpClient) { }
+
+  getProductBySearch(name: string, page: number, size: number) {
+    return this.http.get<ProductResponse>(`${this.baseUrl}/search?name=${name}&page=${page}&size=${size}`);
+  }
 
   getProduct(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.baseUrl}/${id}`)
@@ -35,19 +36,6 @@ export class ProductService {
   getProductById(id: number) {
     return this.http.get<Product>(`${this.baseUrl}/${id}`)
   }
-
-  postReview(reviewRequestDto: ReviewRequestDto) {
-    return this.http.post(`${this.baseUrl}/reviews`, reviewRequestDto, {responseType: 'text'});
-  }
-
-  getReviewsByProductId(id: number) {
-    return this.http.get<Review[]>(`${this.baseUrl}/reviews/${id}`);
-  }
-
-  getReviewsByEmail(email: string) {
-    return this.http.get<Review[]>(`${this.baseUrl}/reviews?email=${email}`);
-  }
-
 }
 
 interface ProductResponse {
