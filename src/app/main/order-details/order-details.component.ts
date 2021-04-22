@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OrderItemResponseDto } from 'src/app/model/order-item-response-dto';
+import { OrderItemResponseDto } from 'src/app/model/dto/order-item-response-dto';
 import { OrderService } from 'src/app/service/order.service';
 
 @Component({

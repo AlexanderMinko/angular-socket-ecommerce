@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { OrderRequestDto } from '../model/order-request-dto';
-import { OrderResponseDto } from '../model/order-response-dto';
-import { OrderItemResponseDto } from '../model/order-item-response-dto';
+import { OrderRequestDto } from '../model/dto/order-request-dto';
+import { OrderResponseDto } from '../model/dto/order-response-dto';
+import { OrderItemResponseDto } from '../model/dto/order-item-response-dto';
 
 @Injectable({
   providedIn: 'root'

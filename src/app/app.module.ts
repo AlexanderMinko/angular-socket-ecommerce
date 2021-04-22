@@ -22,6 +22,8 @@ import { AccountDetailsComponent } from './main/account-details/account-details.
 import { OrderDetailsComponent } from './main/order-details/order-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VerificationComponent } from './main/verification/verification.component';
+import { AdminPanelComponent } from './main/admin-panel/admin-panel.component';
+import { NotFoundComponent } from './main/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { VerificationComponent } from './main/verification/verification.componen
     CartDetailsComponent,
     AccountDetailsComponent,
     OrderDetailsComponent,
-    VerificationComponent
+    VerificationComponent,
+    AdminPanelComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

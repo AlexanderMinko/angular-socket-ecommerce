@@ -10,7 +10,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { AuthService } from '../service/auth.service';
 import { catchError, switchMap } from 'rxjs/operators';
-import { LoginResponse } from '../model/login-response';
+import { LoginResponse } from '../model/dto/login-response';
 
 @Injectable({
     providedIn: 'root'

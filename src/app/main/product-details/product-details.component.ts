@@ -4,12 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { CartItem } from 'src/app/model/entity/cart-item';
 import { Product } from 'src/app/model/entity/product';
 import { Review } from 'src/app/model/entity/review';
-import { ReviewRequestDto } from 'src/app/model/review-request-dto';
+import { ReviewRequestDto } from 'src/app/model/dto/review-request-dto';
 import { AuthService } from 'src/app/service/auth.service';
 import { CartService } from 'src/app/service/cart.service';
 import { ProductService } from 'src/app/service/product.service';
 import { ReviewService } from 'src/app/service/review.service';
-import { SubReviewRequestDto } from 'src/app/model/sub-review-request-dto';
+import { SubReviewRequestDto } from 'src/app/model/dto/sub-review-request-dto';
 
 @Component({
   selector: 'app-product-details',

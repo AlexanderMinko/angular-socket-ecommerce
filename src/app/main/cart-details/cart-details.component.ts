@@ -4,7 +4,7 @@ import { CartItem } from 'src/app/model/entity/cart-item';
 import { OrderItem } from '../../model/entity/order-item';
 import { AuthService } from 'src/app/service/auth.service';
 import { CartService } from 'src/app/service/cart.service';
-import { OrderRequestDto } from '../../model/order-request-dto';
+import { OrderRequestDto } from '../../model/dto/order-request-dto';
 import { OrderService } from '../../service/order.service';
 
 @Component({
@@ -39,7 +39,7 @@ export class CartDetailsComponent implements OnInit {
   onMakeOrder() {
     const orderRequestDto: OrderRequestDto = new OrderRequestDto();
     orderRequestDto.email = this.authService.getAccount().email;
-    let cartItems = this.cartItems.map( el => new OrderItem(el));
+    let cartItems = this.cartItems.map(el => new OrderItem(el));
     orderRequestDto.orderItems = cartItems;
     this.orderService.makeOrder(orderRequestDto)
     .subscribe( (data: number) => {
@@ -53,12 +53,7 @@ export class CartDetailsComponent implements OnInit {
   }
 
   onDecrease(cartItem: CartItem) {
-    cartItem.quantity--;
-    if( cartItem.quantity === 0) {
-      this.cartService.removeFromCart(cartItem);
-    } else {
-      this.cartService.calculateCartTotals();
-    }
+    this.cartService.decreaseQuantity(cartItem);
   }
 
   onRemove(cartItem: CartItem) {
