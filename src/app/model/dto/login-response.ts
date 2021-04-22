@@ -4,6 +4,7 @@ export class LoginResponse {
     email: string;
     photoUrl: string;
     enabled: boolean;
+    roles: string[]
     authToken: string;
     refreshToken: string;
     expiresAt: Date;

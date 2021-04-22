@@ -4,16 +4,16 @@ export class CartItem {
     id: number;
     name: string;
     imageUrl: string;
-    descriprion: string;
-    unitPrice: number;
+    description: string;
+    price: number;
     quantity: number;
 
     constructor(product: Product) {
         this.id = product.id;
         this.name = product.name;
         this.imageUrl = product.imageUrl;
-        this.descriprion = product.description;
-        this.unitPrice = product.price;
+        this.description = product.description;
+        this.price = product.price;
         this.quantity = 1;
     }
 }

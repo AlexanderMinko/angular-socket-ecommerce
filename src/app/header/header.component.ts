@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SocialUser } from 'angularx-social-login';
-import { LoginResponse } from '../model/login-response';
+import { LoginResponse } from '../model/dto/login-response';
 import { AuthService } from '../service/auth.service';
 import { LoginComponent } from './login/login.component';
 

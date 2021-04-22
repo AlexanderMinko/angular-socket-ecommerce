@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../service/auth.service';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { RegistrationRequest } from '../../model/registration-request';
-import { LoginRequest } from '../../model/login-request';
+import { RegistrationRequest } from '../../model/dto/registration-request';
+import { LoginRequest } from '../../model/dto/login-request';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

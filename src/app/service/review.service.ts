@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ReviewRequestDto } from '../model/review-request-dto';
-import { SubReviewRequestDto } from '../model/sub-review-request-dto';
+import { ReviewRequestDto } from '../model/dto/review-request-dto';
+import { SubReviewRequestDto } from '../model/dto/sub-review-request-dto';
 import { Review } from '../model/entity/review';
 import { HttpClient } from '@angular/common/http';
 

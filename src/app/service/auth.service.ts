@@ -2,12 +2,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from "angularx-social-login"
 import { BehaviorSubject, Observable } from 'rxjs';
-import { SocialRequest } from '../model/social-request';
-import { RegistrationRequest } from '../model/registration-request';
-import { RegistrationResponse } from '../model/registration-response';
-import { LoginRequest } from '../model/login-request';
-import { LoginResponse } from '../model/login-response';
-import { RefreshTokenRequest } from '../model/refresh-token-request';
+import { SocialRequest } from '../model/dto/social-request';
+import { RegistrationRequest } from '../model/dto/registration-request';
+import { RegistrationResponse } from '../model/dto/registration-response';
+import { LoginRequest } from '../model/dto/login-request';
+import { LoginResponse } from '../model/dto/login-response';
+import { RefreshTokenRequest } from '../model/dto/refresh-token-request';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter, tap } from 'rxjs/operators';
 
@@ -107,6 +107,7 @@ export class AuthService {
   signInWithFB(activeModal: NgbActiveModal): void {
     this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).then(
       data => {
+        console.log(data);
         const socialRequest: SocialRequest = new SocialRequest();
         socialRequest.firstName = data.firstName;
         socialRequest.lastName = data.lastName;

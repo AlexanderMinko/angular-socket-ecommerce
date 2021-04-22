@@ -1,0 +1,29 @@
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Photo</th>
+      <th scope="col">First Name</th>
+      <th scope="col">last Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Enabled</th>
+      <th scope="col">Created date</th>
+      <th scope="col">Roles</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let account of accounts;">
+      <th scope="row">{{account.id}}</th>
+      <td>
+        <img [src]="account.photoUrl" class="mr-2" style="width: 30px">
+      </td>
+      <td>{{ account.firstName }}</td>
+      <td>{{ account.lastName }}</td>
+      <td>{{ account.email }}</td>
+      <td>{{ account.enabled }}</td>
+      <td>{{ account.createdDate |  date: 'y MMMM d, HH:mm' }}</td>
+      <td>{{ account.roles }} </td>
+    </tr>
+    </tbody>
+  </table>

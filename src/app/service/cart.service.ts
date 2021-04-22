@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { CartItem } from '../model/entity/cart-item';
@@ -9,13 +10,21 @@ import { ProductService } from './product.service';
 })
 export class CartService {
 
+  private baseUrl: string = 'http://localhost:8080/api/shopping-cart';
+
   cartItems: CartItem[] = [];
   totalPriceChange: Subject<number> = new Subject<number>();
   totalQuantityChange: Subject<number> = new Subject<number>();
   totalPrice: number = 0;
   totalQuantity: number = 0;
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private http: HttpClient
+    ) { }
+
+  getDeserializedShoppingCart(serializedShoppingCart: string) {
+    return this.http.get<CartItem[]>(`${this.baseUrl}/${serializedShoppingCart}`);
+  }
 
   addToCart(cartItem: CartItem) {
     this.checkExistingItemAndPush(cartItem);
@@ -23,12 +32,22 @@ export class CartService {
     this.calculateCartTotals();
   }
 
+  decreaseQuantity(cartItem: CartItem) {
+    cartItem.quantity--;
+    if( cartItem.quantity === 0) {
+      this.removeFromCart(cartItem);
+    } else {
+      this.setStorage('cartItems')
+      this.calculateCartTotals();
+    }
+  }
+
   removeFromCart(cartItem: CartItem) {
     const index = this.cartItems.findIndex(el => el.id === cartItem.id);
     if (index > -1) {
       this.cartItems.splice(index, 1);
     }
-    this.setStorage('cartItems');
+    this.cartItems.length > 0 ? this.setStorage('cartItems') : this.clearStorage('cartItems');
     this.calculateCartTotals();
   }
 
@@ -71,21 +90,20 @@ export class CartService {
     }
   }
 
-  async getCookie(key: string) {
+  getCookie(key: string) {
     const allCookies: string[] = document.cookie.split(';');
     const myCookie: string[] = allCookies.filter(el => el.trim().startsWith(key));
     const cookies: string[] = myCookie[0]?.trim().split('=');
-    if (cookies && cookies[0] === key) {
-      let cookieValues: string[] = cookies[1].split('|');
-      for (let str of cookieValues) {
-        let data: string[] = str.split('-');
-        let current: Product = await this.productService.getProduct(+data[0]).toPromise();
-        let cartItem = new CartItem(current);
-        cartItem.quantity = +data[1];
-        this.cartItems.push(cartItem);
-      }
-      this.setStorage('cartItems');
-      this.calculateCartTotals();
+    if(cookies) {
+      console.log(cookies);
+      console.log("lol");
+      const serializedShoppingCart = cookies[1];
+      this.getDeserializedShoppingCart(serializedShoppingCart)
+      .subscribe( (data: CartItem[]) => {
+        this.cartItems = data;
+        this.setStorage('cartItems');
+        this.calculateCartTotals();
+      });
     }
   }
 
@@ -105,21 +123,20 @@ export class CartService {
     let totalQuantity: number = 0;
     let totalPrice: number = 0;
     for (let currentCartItem of this.cartItems) {
-      totalPrice += currentCartItem.quantity * currentCartItem.unitPrice;
+      totalPrice += currentCartItem.quantity * currentCartItem.price;
       totalQuantity += currentCartItem.quantity;
     }
     this.totalPrice = +totalPrice.toFixed(2);
     this.totalPriceChange.next(+totalPrice.toFixed(2));
     this.totalQuantity = totalQuantity;
     this.totalQuantityChange.next(totalQuantity);
-    // this.logCartData(totalPrice, totalQuantity);
   }
 
   logCartData(totalPrice: number, totalQuantity: number) {
     for (let cartItem of this.cartItems) {
-      const subTotalPrice = cartItem.quantity * cartItem.unitPrice;
+      const subTotalPrice = cartItem.quantity * cartItem.price;
       console.log(`name=${cartItem.name}, quantity=${cartItem.quantity},`
-        + `unitPrice=${cartItem.unitPrice}, subTotalPrice=${subTotalPrice.toFixed(2)}`);
+        + `unitPrice=${cartItem.price}, subTotalPrice=${subTotalPrice.toFixed(2)}`);
 
     }
     console.log(`totalPrice=${totalPrice.toFixed(2)}, totalQuantity=${totalQuantity}`);

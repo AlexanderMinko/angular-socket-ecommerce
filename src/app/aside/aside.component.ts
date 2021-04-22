@@ -28,4 +28,8 @@ export class AsideComponent implements OnInit {
     this.router.navigateByUrl(`search/${value.trim()}`);
   }
 
+  onChange(value: string) {
+    this.router.navigateByUrl(`sort/${value}`);
+  }
+  
 }

@@ -27,9 +27,9 @@
                     </td>
                     <td>
                         <div><span style="font-weight: bold">Name: </span> {{cartItem.name}}</div>
-                        <div><span style="font-weight: bold">Description: </span>{{cartItem.descriprion}}</div>
+                        <div><span style="font-weight: bold">Description: </span>{{cartItem.description}}</div>
                         <div><span style="font-weight: bold">Price: </span>
-                            {{cartItem.unitPrice | currency: 'USD'}}</div>
+                            {{cartItem.price | currency: 'USD'}}</div>
                     </td>
                     <td>
                         <div class="items"> Quantity:
@@ -41,7 +41,7 @@
                                     <strong><i class="fas fa-minus"></i></strong></button>
                             </div>
                             </div>
-                        <p class="mt-2">Total cost: {{cartItem.unitPrice * cartItem.quantity | currency: 'USD'}}</p>
+                        <p class="mt-2">Total cost: {{cartItem.price * cartItem.quantity | currency: 'USD'}}</p>
                         <button (click)="onRemove(cartItem)" class="btn btn-outline-dark">Remove</button>
                     </td>
                 </tr>

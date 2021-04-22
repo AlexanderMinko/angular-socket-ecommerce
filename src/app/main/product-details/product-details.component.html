@@ -42,8 +42,8 @@
                     <div class="card-body">
                         {{review.review}}
                         <hr>
-                        <button (click)="onReplies(review.id)" class="btn btn-light btn-sm">Reply</button>
-                        <button *ngIf="review.countOfSubReview > 0" type="button" class="btn btn-light btn-sm ml-3"
+                        <button *ngIf="isLogged" (click)="onReplies(review.id)" class="btn btn-light btn-sm mr-3">Reply</button>
+                        <button *ngIf="review.countOfSubReview > 0" type="button" class="btn btn-light btn-sm"
                              (click)="onViewReplies(review.id)">
                             View Replies ({{review.countOfSubReview}})</button>
                     </div>
